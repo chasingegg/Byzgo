@@ -21,7 +21,7 @@ var option = 0
 // ByzInitClient : Init client
 func ByzInitClient(configPath string) {
 	// var configPath = "../bft/config"
-	var configPrivPath = "./bft/configPrivate/template"
+	var configPrivPath = "./bft/config_private/template"
 	var port = 0
 	config := C.CString(configPath)
 	configPriv := C.CString(configPrivPath)

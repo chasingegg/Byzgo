@@ -9,8 +9,7 @@ package replica
 //#include <bits/sigaction.h>
 
 #include "../bft/libbyz/libbyz.h"
-#include "../bft/difs/th_assert.h"
-#include "../bft/bft-simple/simple.h"
+int Simple_size = 4096;
 static void dump_profile() {
 	// profil(0,0,0,0);
 	// Byz_print_stats();
@@ -33,14 +32,22 @@ int exec_command_cgo(Byz_req *inb, Byz_rep *outb, Byz_buffer *non_det, int clien
 
   // A simple service.
   if (inb->contents[0] == 1) {
-    th_assert(inb->size == 8, "Invalid request");
+    // th_assert(inb->size == 8, "Invalid request");
+    if (!(inb->size == 8)) {
+      printf("Invalid request\n");
+      exit(-1);
+    }
     bzero(outb->contents, Simple_size);
     outb->size = Simple_size;
     return 0;
   }
 
-  th_assert((inb->contents[0] == 2 && inb->size == Simple_size) ||
-	    (inb->contents[0] == 0 && inb->size == 8), "Invalid request");
+  // th_assert((inb->contents[0] == 2 && inb->size == Simple_size) ||
+      // (inb->contents[0] == 0 && inb->size == 8), "Invalid request");
+  if (!((inb->contents[0] == 2 && inb->size == Simple_size) || (inb->contents[0] == 0 && inb->size == 8))) {
+    printf("Invalid request\n");
+    exit(-1);
+  }
   *((long long*)(outb->contents)) = 0;
   outb->size = 8;
   return 0;
