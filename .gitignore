@@ -1,4 +1,7 @@
 cgo_demo/cgo_demo
+.cproject
+.project
+
 # Binaries for programs and plugins
 *.exe
 *.exe~

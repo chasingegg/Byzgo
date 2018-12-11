@@ -17,7 +17,6 @@ static void wait_chld(int sig) {
   while (waitpid(-1, 0, WNOHANG) > 0);
 }
 
-
 int Byz_init_client(char *conf, char *conf_priv, short port) {
   // signal handler to get rid of zombies
   struct sigaction act;
@@ -209,6 +208,11 @@ void Byz_reset_stats() {
 }
 
 void Byz_print_stats() {
+  stats.print_stats();
+}
+
+void Byz_print_stats2() {
+  profil(0,0,0,0);
   stats.print_stats();
 }
 

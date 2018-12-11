@@ -1,4 +1,4 @@
-package main
+package client
 
 // #cgo CFLAGS: -I../bft/gmp -I../bft/libbyz -I../bft/sfs/include/sfslite -O3 -fno-exceptions -DNDEBUG
 // #cgo LDFLAGS: -L../bft/gmp -L../bft/libbyz -L../bft/sfs/lib/sfslite -lbyz -lsfscrypt -lasync -lgmp -lstdc++
@@ -14,46 +14,48 @@ import (
 	"log"
 	"unsafe"
 )
-const Simple_size int = 8192
+
+const simpleSize int = 4096
 var option = 0
-var num_iter = 100
 
-func main() {
-	var config = "../bft/config"
-	var config_priv = "./bft/config_private/template"
+// ByzInitClient : Init client
+func ByzInitClient(configPath string) {
+	// var configPath = "../bft/config"
+	var configPrivPath = "./bft/configPrivate/template"
 	var port = 0
-	c_config := C.CString(config)
-	c_config_priv := C.CString(config_priv)
-	defer C.free(unsafe.Pointer(c_config))
-	defer C.free(unsafe.Pointer(c_config_priv))
+	config := C.CString(configPath)
+	configPriv := C.CString(configPrivPath)
+	defer C.free(unsafe.Pointer(config))
+	defer C.free(unsafe.Pointer(configPriv))
 
-	C.Byz_init_client(c_config, c_config_priv, C.short(port))
+	C.Byz_init_client(config, configPriv, C.short(port))
+}
 
-	read_only := 0
+// ByzRunClient : Alloc req and wait for reply from replica
+func ByzRunClient() {
+	readOnly := 0
 	req := C.struct__Byz_buffer{}
 	rep := C.struct__Byz_buffer{}
-	C.Byz_alloc_request(&req, C.int(Simple_size))
-	for i := 0; i < Simple_size; i++ {
+	C.Byz_alloc_request(&req, C.int(simpleSize))
+	for i := 0; i < simpleSize; i++ {
 		*(*C.char)(unsafe.Pointer(uintptr(unsafe.Pointer(req.contents)) + uintptr(i))) = C.char(option)
 	}
 	if option != 2 {
 		req.size = 8
 	} else {
-		req.size = C.int(Simple_size)
+		req.size = C.int(simpleSize)
 	}
 	
-	for i := 0; i < num_iter; i++ {
-		// invoke request
-		C.Byz_invoke(&req, &rep, C.ulong(read_only))
+	// invoke request
+	C.Byz_invoke(&req, &rep, C.ulong(readOnly))
 
-		// check reply
-		if !(((option == 2 || option == 0) && rep.size == 8) || (option == 1 && rep.size == C.int(Simple_size))) {
-			log.Fatal("invalid reply")
-		}
-
-		// free reply
-		C.Byz_free_reply(&rep)
+	// check reply
+	if !(((option == 2 || option == 0) && rep.size == 8) || (option == 1 && rep.size == C.int(simpleSize))) {
+		log.Fatal("invalid reply")
 	}
 
+	// free reply
+	C.Byz_free_reply(&rep)
+	
 	C.Byz_free_request(&req)
 }

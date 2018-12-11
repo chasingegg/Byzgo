@@ -308,6 +308,8 @@ void Byz_reset_stats();
 void Byz_print_stats();
 /* Effects: Print library statistics to stdout */
 
+void Byz_print_stats2();
+
 void Byz_reset_client();
 /* Reverts client to its initial state to ensure independence of experimental
    points */
