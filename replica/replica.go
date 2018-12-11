@@ -19,7 +19,7 @@ import (
 
 // ByzInitReplica : register the replica  
 func ByzInitReplica(configPath string) {
-	var configPrivPath = "./bft/config_private/template"
+	var configPrivPath = "../bft/config_private/template"
 	config := C.CString(configPath)
 	configPriv := C.CString(configPrivPath)
 	defer C.free(unsafe.Pointer(config))

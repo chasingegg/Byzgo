@@ -6,7 +6,7 @@ cgo_demo/cgo_demo
 *.exe
 *.exe~
 *.dll
-*.so
+# *.so
 *.dylib
 
 # Test binary, build with `go test -c`
@@ -15,6 +15,6 @@ cgo_demo/cgo_demo
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
 *.o
-*.a
+# *.a
 *.swap
 
