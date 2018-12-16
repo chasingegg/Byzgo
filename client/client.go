@@ -16,12 +16,12 @@ import (
 )
 
 const simpleSize int = 4096
+
 var option = 0
 
 // ByzInitClient : Init client
-func ByzInitClient(configPath string) {
+func ByzInitClient(configPath string, configPrivPath string) {
 	// var configPath = "../bft/config"
-	var configPrivPath = "../bft/config_private/template"
 	var port = 0
 	config := C.CString(configPath)
 	configPriv := C.CString(configPrivPath)
@@ -45,7 +45,7 @@ func ByzRunClient() {
 	} else {
 		req.size = C.int(simpleSize)
 	}
-	
+
 	// invoke request
 	C.Byz_invoke(&req, &rep, C.ulong(readOnly))
 
@@ -56,6 +56,6 @@ func ByzRunClient() {
 
 	// free reply
 	C.Byz_free_reply(&rep)
-	
+
 	C.Byz_free_request(&req)
 }

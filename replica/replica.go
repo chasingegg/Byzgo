@@ -17,16 +17,15 @@ import (
 	"unsafe"
 )
 
-// ByzInitReplica : register the replica  
-func ByzInitReplica(configPath string) {
-	var configPrivPath = "../bft/config_private/template"
+// ByzInitReplica : register the replica
+func ByzInitReplica(configPath string, configPrivPath string) {
 	config := C.CString(configPath)
 	configPriv := C.CString(configPrivPath)
 	defer C.free(unsafe.Pointer(config))
 	defer C.free(unsafe.Pointer(configPriv))
 
 	C.dump_handler()
-	var memSize  = 205 * 8192
+	var memSize = 205 * 8192
 	cMem := (*C.char)(C.malloc(C.ulong(memSize)))
 	for i := 0; i < memSize; i++ {
 		*(*C.char)(unsafe.Pointer(uintptr(unsafe.Pointer(cMem)) + uintptr(i))) = C.char(0)
@@ -34,9 +33,5 @@ func ByzInitReplica(configPath string) {
 	defer C.free(unsafe.Pointer(cMem))
 
 	C.Byz_init_replica(config, configPriv, cMem, C.uint(memSize), (C.service)(unsafe.Pointer(C.exec_command_cgo)), nil, 0)
-}
-
-// ByzRunReplica : receive req from client and reply
-func ByzRunReplica() {
 	C.Byz_replica_run()
 }

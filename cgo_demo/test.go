@@ -48,7 +48,7 @@ func get() {
 //坑在于下面这句注释不可缺少的
 //export callOnMeGo
 func callOnMeGo(in int, ii *C.struct_Byz_req) int {
-	fmt.Println(ii.len+1)
+	fmt.Println(ii.len + 1)
 	fmt.Printf("Go.callOnMeGo(): called with arg = %d\n", in)
 	return in + 1
 }
