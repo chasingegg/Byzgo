@@ -38,4 +38,4 @@ dlopen=''
 dlpreopen=''
 
 # Directory that this library needs to be installed in:
-libdir='/home/gao/go_workspace/src/gitlab.33.cn/chain33/chain33/plugin/consensus/pbft/bft/sfslite-1.2/install/lib/sfslite-1.2'
+libdir='/home/gao/go_workspace/src/Byzgo//bft/sfslite-1.2/install/lib/sfslite-1.2'

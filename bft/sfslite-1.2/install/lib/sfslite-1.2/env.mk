@@ -1,4 +1,4 @@
-# Makefile fragment generated  2018年 10月 25日 星期四 15:30:13 CST
+# Makefile fragment generated  2018年 12月 21日 星期五 22:46:30 CST
 CC = gcc
 CXX = g++
 CFLAGS = -Werror=strict-aliasing

@@ -47,7 +47,7 @@ func ByzRunClient() {
 	}
 
 	// invoke request
-	C.Byz_invoke(&req, &rep, C.ulong(readOnly))
+	C.Byz_invoke(&req, &rep, C.bool(readOnly))
 
 	// check reply
 	if !(((option == 2 || option == 0) && rep.size == 8) || (option == 1 && rep.size == C.int(simpleSize))) {
